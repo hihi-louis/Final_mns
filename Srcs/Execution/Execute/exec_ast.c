@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:27:56 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 17:32:06 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/26 19:42:06 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static pid_t	fork_and_exec_left(t_ast *node, t_shell *mns,
 		mns->is_pipe = true;
 		exec_ast(node, mns);
 		exit_code = mns->exitcode;
-		close(fd);
 		shell_clean(mns);
 		exit(exit_code);
 	}
@@ -59,7 +58,6 @@ static pid_t	fork_and_exec_right(t_ast *node, t_shell *mns,
 		mns->is_pipe = true;
 		exec_ast(node, mns);
 		exit_code = mns->exitcode;
-		close(fd);
 		shell_clean(mns);
 		exit(exit_code);
 	}

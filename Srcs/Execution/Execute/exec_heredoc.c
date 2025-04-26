@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 18:58:07 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 19:12:21 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/26 19:57:25 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,15 @@ char	*status_zero(t_shell *mns, char *fi_na, char *lim_copy, int fd)
 
 char	*status_minus_two(t_shell *mns, char *fi_na, char *lim_copy, int fd)
 {
-	(void)mns;
+	int	i;
+
+	i = 0;
 	hd_abort(2);
+	while (i < mns->group_cnt)
+	{
+		clean_heredoc_files(mns, &mns->cmd_group[i]);
+		i++;
+	}
 	free(fi_na);
 	free(lim_copy);
 	close(fd);
