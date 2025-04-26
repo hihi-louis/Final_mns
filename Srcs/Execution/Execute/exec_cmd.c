@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 03:13:21 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 19:12:57 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/26 19:30:28 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	exec_cmd(t_shell *mns, t_cmd *cmd)
 		update_status(mns, 126);
 	}
 	else if (exec_cmd_check(cmd->cmd_arg[0]) && mns->is_pipe)
-		exec_builtin_child(mns, cmd);
+		exec_builtin_child(mns, cmd, tmp);
 	else if (exec_cmd_check(cmd->cmd_arg[0]) && !mns->is_pipe)
 		exec_builtin(mns, cmd);
 	else if (mns->is_pipe)
