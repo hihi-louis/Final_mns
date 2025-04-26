@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:39:41 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 17:24:29 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/26 19:19:40 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	event_hook(void)
 void	handle_sigint_heredoc(int signal_val)
 {
 	(void)signal_val;
-	ft_printf_fd(STDOUT_FILENO, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_done = 1;
