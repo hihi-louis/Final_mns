@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_check_error.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caonguye <caonguye@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:43:20 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/18 20:36:16 by caonguye         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:36:48 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_error(t_shell *mns, char *cmd)
 		update_status(mns, 127);
 		return (EXIT_FAILURE);
 	}
-	if (access(cmd, X_OK) != 0)
+	else if (access(cmd, X_OK) != 0)
 	{
 		ft_printf_fd(STDERR_FILENO, "%s: Permission denied\n", cmd);
 		update_status(mns, 126);

@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 23:13:23 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 19:55:15 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/27 20:49:20 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		update_status(t_shell *mns, int new_status);
 void	wait_update(t_shell *mns, pid_t pid);
 char	*found_command_path(t_shell *mns, char *cmd);
 //Builtin functions
-void	exec_builtin(t_shell *mns, t_cmd *cmd);
+void	exec_builtin(t_shell *mns, t_cmd *cmd, const int *tmp);
 int		exec_cmd_check(char *cmd);
 
 // Handle_Error

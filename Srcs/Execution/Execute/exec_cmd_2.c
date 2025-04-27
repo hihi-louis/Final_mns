@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:07:44 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 19:31:33 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/27 19:24:22 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	exec_non_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp)
 
 	setup_fd(mns);
 	handle_signals_default();
+	close(tmp[0]);
+	close(tmp[1]);
 	command_path = found_command_path(mns, cmd->cmd_arg[0]);
 	if (!command_path)
 	{
@@ -40,8 +42,6 @@ void	exec_non_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp)
 		shell_clean(mns);
 		exit(127);
 	}
-	close(tmp[0]);
-	close(tmp[1]);
 	execve(command_path, cmd->cmd_arg, mns->env);
 	handle_execution_error(mns, command_path, cmd->cmd_arg);
 }
@@ -69,10 +69,10 @@ void	exec_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp)
 	int	code;
 
 	setup_fd(mns);
-	exec_builtin(mns, cmd);
-	code = mns->exitcode;
 	close(tmp[0]);
 	close(tmp[1]);
+	exec_builtin(mns, cmd, tmp);
+	code = mns->exitcode;
 	shell_clean(mns);
 	exit(code);
 }

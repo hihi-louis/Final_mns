@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_shlvl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caonguye <caonguye@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:45:20 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/20 17:39:42 by caonguye         ###   ########.fr       */
+/*   Updated: 2025/04/27 20:53:53 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,17 @@ void	env_shlvl_down(t_shell *mns)
 	char	*shlvl;
 
 	shlvl = get_env_val(mns, "SHLVL");
-	if (!ft_strcmp(shlvl, "1"))
+	if (shlvl)
 	{
-		mns->shlvl = 0;
-		unset_env_var("SHLVL", &mns->env);
-	}
-	else
-	{
-		mns->shlvl = ft_atoi(shlvl) - 1;
-		env_shlvl_gen(mns);
+		if (!ft_strcmp(shlvl, "1"))
+		{
+			mns->shlvl = 0;
+			unset_env_var("SHLVL", &mns->env);
+		}
+		else
+		{
+			mns->shlvl = ft_atoi(shlvl) - 1;
+			env_shlvl_gen(mns);
+		}
 	}
 }

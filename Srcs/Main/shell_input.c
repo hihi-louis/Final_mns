@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:58:30 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/26 16:19:35 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/27 20:33:29 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static void	execute_part(t_shell *mns)
 	mns->std_fd[0] = -2;
 	mns->std_fd[1] = -2;
 	mns->ast = ast_init(mns, mns->cmd_group, mns->group_cnt, 0);
-	exec_ast(mns->ast, mns);
+	if (mns->ast)
+		exec_ast(mns->ast, mns);
 }
 
 static void	shell_input_operate(t_shell *mns)

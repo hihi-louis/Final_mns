@@ -29,7 +29,7 @@ all	:	${NAME}
 
 # Rule to compile source files into object files
 %.o: %.c
-		@cc -Wall -Wextra -Werror -c -I. $< -o $@
+		@cc -Wall -Wextra -Werror -fPIC -c -I. $< -o $@
 
 # Target to create the library
 ${NAME}	:	${OBJS}

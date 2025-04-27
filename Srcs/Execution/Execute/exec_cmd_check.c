@@ -6,13 +6,13 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 01:44:07 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/14 16:42:02 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:29:52 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_builtin(t_shell *mns, t_cmd *cmd)
+void	exec_builtin(t_shell *mns, t_cmd *cmd, const int *tmp)
 {
 	char	*name;
 
@@ -30,7 +30,7 @@ void	exec_builtin(t_shell *mns, t_cmd *cmd)
 	else if (!ft_strcmp(name, "unset"))
 		bi_unset(mns, cmd);
 	else if (!ft_strcmp(name, "exit"))
-		bi_exit(mns, cmd);
+		bi_exit(mns, cmd, tmp);
 }
 
 int	exec_cmd_check(char *cmd)

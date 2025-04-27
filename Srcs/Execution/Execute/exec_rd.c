@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_rd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caonguye <caonguye@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:39 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/22 22:26:22 by caonguye         ###   ########.fr       */
+/*   Updated: 2025/04/27 19:07:38 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	handle_rd_in(t_shell *mns, int *fd, int i, t_token *in)
 	if (*fd < 0)
 	{
 		ft_printf_fd(2,
-			"bash: %s: No such file or directory\n", in[i].val);
+			"bash: %s: %s\n", in[i].val, strerror(errno));
 		clean_heredoc_files(mns, mns->cmd_group);
 		update_status(mns, 1);
 		return (EXIT_FAILURE);
@@ -86,7 +86,7 @@ static int	handle_outfile(t_cmd *cmd)
 		}
 		if (fd < 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "bash: %s\n", strerror(errno));
+			ft_printf_fd(STDERR_FILENO, "bash: %s: %s\n", cmd->out[i].val, strerror(errno));
 			return (EXIT_FAILURE);
 		}
 		dup2(fd, STDOUT_FILENO);

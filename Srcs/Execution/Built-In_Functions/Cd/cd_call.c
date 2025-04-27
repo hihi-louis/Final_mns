@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_call.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caonguye <caonguye@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 03:33:28 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/21 17:22:40 by caonguye         ###   ########.fr       */
+/*   Updated: 2025/04/27 16:53:59 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,21 @@ static char	*get_cd_target(t_shell *mns, char **args)
 {
 	char	*target;
 
-	if ((!args[1] || !ft_strcmp(args[1], "~")
-			|| !ft_strcmp(args[1], "--")) && !args[2])
+	if (mns->cmd_group->arg_cnt == 1 
+		|| (mns->cmd_group->arg_cnt == 2 && (!ft_strcmp(args[1], "~") 
+		|| !ft_strcmp(args[1], "--"))))
 	{
 		target = get_env_val(mns, "HOME");
 		for_home(target);
 	}
-	else if ((!ft_strcmp(args[1], "-")) && !args[2])
+	else if (mns->cmd_group->arg_cnt == 2 && (!ft_strcmp(args[1], "-")))
 	{
 		target = get_env_val(mns, "OLDPWD");
 		if (!target)
 			return (ft_printf_fd(2, "cd: OLDPWD not set\n"), NULL);
 		printf("%s\n", target);
 	}
-	else if (args[1] && args[2] != NULL)
+	else if (mns->cmd_group->arg_cnt > 2)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: cd: too many arguments\n");
 		return (update_status(mns, 1), NULL);

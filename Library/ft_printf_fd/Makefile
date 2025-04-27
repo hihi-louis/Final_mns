@@ -13,7 +13,7 @@ all :${NAME}
 
 #Rules to compile
 %.o : %.c
-		cc -Wall -Wextra -Werror -c -I. $< -o $@
+		cc -Wall -Wextra -Werror -fPIC -c -I. $< -o $@
 
 #Target to create library
 ${NAME} : ${OBJS}

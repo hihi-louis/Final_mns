@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:23:02 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/26 18:24:16 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/27 20:03:27 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	print_heredoc(t_shell *mns, int fd, char *limiter, int is_exp)
 			return (-2);
 		}
 		if (!line)
-			return (get_ctrl_d(limiter), 1);
+			return (get_ctrl_d(limiter), free(line), 1);
 		if (limiter && !ft_strcmp(line, limiter))
 		{
 			signals_initialize();

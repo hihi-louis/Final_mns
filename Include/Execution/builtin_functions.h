@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_functions.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caonguye <caonguye@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 04:02:14 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/24 10:37:23 by caonguye         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:31:45 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int		bi_cd(t_shell *mns, t_cmd *cmd);
 int		bi_echo(t_shell *mns, t_cmd *cmd);
 void	bi_env(t_shell *mns, t_cmd *cmd);
-void	bi_exit(t_shell *mns, t_cmd *cmd);
+void	bi_exit(t_shell *mns, t_cmd *cmd, const int *tmp);
 void	bi_export(t_shell *mns, t_cmd *cmd);
 void	bi_pwd(t_shell *mns, t_cmd *cmd);
 int		bi_unset(t_shell *mns, t_cmd *cmd);
