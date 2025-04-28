@@ -6,11 +6,25 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:58:30 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/27 20:33:29 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/28 03:10:46 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static void reset_stdio_to_tty(void)
+// {
+// 	int tty_fd = open("/dev/tty", O_RDWR);
+// 	if (tty_fd != -1)
+// 	{
+// 		exit (1);
+// 	}
+// 	close(STDIN_FILENO);
+// 	close(STDOUT_FILENO);
+// 	dup2(tty_fd, STDIN_FILENO);
+// 	dup2(tty_fd, STDOUT_FILENO);
+// 	close(tty_fd);
+// }
 
 static void	execute_part(t_shell *mns)
 {
@@ -37,7 +51,10 @@ static void	shell_input_operate(t_shell *mns)
 	if (mns->shell_err == -3)
 		return ;
 	else if (prs_cmd_check(mns))
+	{	
 		execute_part(mns);
+		// reset_stdio_to_tty();
+	}
 	mns->std_fd[0] = -2;
 	mns->std_fd[1] = -2;
 }
@@ -56,6 +73,8 @@ void	shell_input(t_shell	*mns)
 			printf("exit\n");
 			env_shlvl_down(mns);
 			exit_code = mns->exitcode;
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
 			shell_clean(mns);
 			exit (exit_code);
 		}

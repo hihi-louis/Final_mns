@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 03:34:33 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/27 16:56:55 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/28 03:29:21 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 static void	printf_numeric_error(t_shell *mns, t_cmd *cmd, const int *tmp)
 {
+	(void)tmp;
 	ft_printf_fd(2, "bash: exit: %s: numeric argument required\n",
 		cmd->cmd_arg[1]);
 	close(tmp[0]);
 	close(tmp[1]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	shell_clean (mns);
 	exit (2);
 }
@@ -27,12 +30,17 @@ void	bi_exit(t_shell *mns, t_cmd *cmd, const int *tmp)
 	long	code;
 	int		exit_code;
 
+	(void)tmp;
 	if (isatty(STDIN_FILENO) && !mns->is_pipe)
 		ft_printf_fd(STDERR_FILENO, "exit\n");
 	if (cmd->arg_cnt == 1)
 	{
 		exit_code = mns->exitcode;
 		env_shlvl_down(mns);
+		close(tmp[0]);
+		close(tmp[1]);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
 		shell_clean(mns);
 		exit (exit_code);
 	}
@@ -49,6 +57,8 @@ void	bi_exit(t_shell *mns, t_cmd *cmd, const int *tmp)
 	env_shlvl_down(mns);
 	close(tmp[0]);
 	close(tmp[1]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	shell_clean(mns);
 	exit (exit_code);
 }

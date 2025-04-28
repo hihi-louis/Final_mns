@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:07:44 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/27 19:24:22 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/28 02:07:49 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	exec_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp)
 	close(tmp[0]);
 	close(tmp[1]);
 	exec_builtin(mns, cmd, tmp);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	code = mns->exitcode;
 	shell_clean(mns);
 	exit(code);

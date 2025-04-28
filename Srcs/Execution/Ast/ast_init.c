@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:58:02 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/27 19:56:18 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/28 02:13:58 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ t_ast	*create_ast_node_cmd(t_shell *mns, t_token *tokens, int index)
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
-	if (mns->std_fd[0] == -2)
-		dup2(mns->std_fd[0], STDIN_FILENO);
-	if (mns->std_fd[1] == -2)
-		dup2(mns->std_fd[1], STDOUT_FILENO);
+	// if (mns->std_fd[0] == -2)
+	// 	dup2(mns->std_fd[0], STDIN_FILENO);
+	// if (mns->std_fd[1] == -2)
+	// 	dup2(mns->std_fd[1], STDOUT_FILENO);
 	node->type = NODE_CMD;
 	node->cmd_tokens = tokens;
 	node->cmd_index = index;
