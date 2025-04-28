@@ -20,10 +20,6 @@ t_ast	*create_ast_node_cmd(t_shell *mns, t_token *tokens, int index)
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
-	// if (mns->std_fd[0] == -2)
-	// 	dup2(mns->std_fd[0], STDIN_FILENO);
-	// if (mns->std_fd[1] == -2)
-	// 	dup2(mns->std_fd[1], STDOUT_FILENO);
 	node->type = NODE_CMD;
 	node->cmd_tokens = tokens;
 	node->cmd_index = index;

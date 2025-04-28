@@ -19,8 +19,6 @@ static void	printf_numeric_error(t_shell *mns, t_cmd *cmd, const int *tmp)
 		cmd->cmd_arg[1]);
 	close(tmp[0]);
 	close(tmp[1]);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	shell_clean (mns);
 	exit (2);
 }
@@ -39,8 +37,6 @@ void	bi_exit(t_shell *mns, t_cmd *cmd, const int *tmp)
 		env_shlvl_down(mns);
 		close(tmp[0]);
 		close(tmp[1]);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
 		shell_clean(mns);
 		exit (exit_code);
 	}
@@ -57,8 +53,6 @@ void	bi_exit(t_shell *mns, t_cmd *cmd, const int *tmp)
 	env_shlvl_down(mns);
 	close(tmp[0]);
 	close(tmp[1]);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	shell_clean(mns);
 	exit (exit_code);
 }

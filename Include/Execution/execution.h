@@ -49,7 +49,6 @@ void	exec_error(t_shell *mns, char *cmd_path, char *ms1, char *ms2);
 
 // Execution
 void	exec_cmd(t_shell *mns, t_cmd *cmd);
-void	setup_fd(t_shell *mns);
 void	exec_non_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp);
 void	exec_non_builtin(t_shell *mns, t_cmd *cmd, const int *tmp);
 void	exec_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp);

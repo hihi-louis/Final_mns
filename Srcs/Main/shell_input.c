@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-// static void reset_stdio_to_tty(void)
-// {
-// 	int tty_fd = open("/dev/tty", O_RDWR);
-// 	if (tty_fd != -1)
-// 	{
-// 		exit (1);
-// 	}
-// 	close(STDIN_FILENO);
-// 	close(STDOUT_FILENO);
-// 	dup2(tty_fd, STDIN_FILENO);
-// 	dup2(tty_fd, STDOUT_FILENO);
-// 	close(tty_fd);
-// }
-
 static void	execute_part(t_shell *mns)
 {
 	heredoc_expand_all(mns);
@@ -73,8 +59,6 @@ void	shell_input(t_shell	*mns)
 			printf("exit\n");
 			env_shlvl_down(mns);
 			exit_code = mns->exitcode;
-			close(STDIN_FILENO);
-			close(STDOUT_FILENO);
 			shell_clean(mns);
 			exit (exit_code);
 		}
