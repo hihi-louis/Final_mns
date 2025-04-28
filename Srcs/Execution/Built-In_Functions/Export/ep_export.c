@@ -57,7 +57,6 @@ void	ep_standalone(t_shell *mns, int i, int size)
 		ft_bad_alloc(mns);
 	while (++i < size)
 	{
-		printf("HERE");
 		if (sorted_env[i][0] == '_')
 			continue ;
 		pos = ft_strichr(sorted_env[i], '=');

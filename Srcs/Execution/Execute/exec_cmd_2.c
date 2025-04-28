@@ -59,7 +59,7 @@ void	exec_non_builtin(t_shell *mns, t_cmd *cmd, const int *tmp)
 	}
 	if (pid == 0)
 		exec_non_builtin_child(mns, cmd, tmp);
-	setup_fd(mns);
+	// setup_fd(mns);
 	wait_update(mns, pid);
 	clean_heredoc_files(mns, cmd);
 }
@@ -68,12 +68,12 @@ void	exec_builtin_child(t_shell *mns, t_cmd *cmd, const int	*tmp)
 {
 	int	code;
 
-	setup_fd(mns);
+	// setup_fd(mns);
 	close(tmp[0]);
 	close(tmp[1]);
 	exec_builtin(mns, cmd, tmp);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
+	// close(STDIN_FILENO);
+	// close(STDOUT_FILENO);
 	code = mns->exitcode;
 	shell_clean(mns);
 	exit(code);

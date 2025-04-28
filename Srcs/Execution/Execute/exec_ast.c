@@ -21,10 +21,6 @@ static pid_t	fork_and_exec_left(t_ast *node, t_shell *mns,
 	pid = fork();
 	if (pid == 0)
 	{
-		if (mns->std_fd[0] != -2)
-			close(mns->std_fd[0]);
-		if (mns->std_fd[1] != -2)
-			close(mns->std_fd[1]);
 		handle_signals_default();
 		dup2(fd, STDOUT_FILENO);
 		close(pipe_fd[1]);
@@ -47,14 +43,8 @@ static pid_t	fork_and_exec_right(t_ast *node, t_shell *mns,
 	pid = fork();
 	if (pid == 0)
 	{
-		if (mns->std_fd[0] != -2)
-			close(mns->std_fd[0]);
-		if (mns->std_fd[1] != -2)
-			close(mns->std_fd[1]);
 		handle_signals_default();
 		dup2(fd, STDIN_FILENO);
-		if (!fd)
-			close(fd);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		mns->is_pipe = true;
@@ -68,20 +58,12 @@ static pid_t	fork_and_exec_right(t_ast *node, t_shell *mns,
 
 static void	exec_cmd_node(t_shell *mns, t_ast *node)
 {
-	if (mns->std_fd[0] == -2)
-		dup2(mns->std_fd[0], STDIN_FILENO);
-	if (mns->std_fd[1] == -2)
-		dup2(mns->std_fd[1], STDOUT_FILENO);
 	if (mns->heredoc_failed)
 	{
 		mns->heredoc_failed = 0;
 		return ;
 	}
 	exec_cmd(mns, &mns->cmd_group[node->cmd_index]);
-	if (mns->std_fd[0] != -2)
-		close(mns->std_fd[0]);
-	if (mns->std_fd[1] != -2)
-		close(mns->std_fd[1]);
 }
 
 static void	close_wait_clean_hd(t_shell *mns, int *pipe_fd,
@@ -91,8 +73,6 @@ static void	close_wait_clean_hd(t_shell *mns, int *pipe_fd,
 
 	(void)pipe_fd;
 	i = 0;
-	// close(pipe_fd[0]);
-	// close(pipe_fd[1]);
 	wait_update(mns, left_pid);
 	wait_update(mns, right_pid);
 	while (i < mns->group_cnt)
@@ -116,20 +96,22 @@ void	exec_ast(t_ast *node, t_shell *mns)
 		mns->heredoc_failed = 0;
 		return ;
 	}
-	if (node->type == NODE_CMD)
+	if (node->type == NODE_PIPE)
+	{
+		if (pipe(pipe_fd) == -1)
+			return (perror("pipe error"));
+		left_pid = fork_and_exec_left(node->left, mns, pipe_fd[1], pipe_fd);
+		right_pid = fork_and_exec_right(node->right, mns, pipe_fd[0], pipe_fd);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		close_wait_clean_hd(mns, pipe_fd, left_pid, right_pid);
+		mns->is_pipe = false;
+		return ;
+	}
+	else if (node->type == NODE_CMD)
 	{
 		exec_cmd_node(mns, node);
 		return ;
 	}
-	if (pipe(pipe_fd) == -1)
-		return (perror("pipe error"));
-	left_pid = fork_and_exec_left(node->left, mns, pipe_fd[1], pipe_fd);
-	right_pid = fork_and_exec_right(node->right, mns, pipe_fd[0], pipe_fd);
-	if (left_pid == -1 || right_pid == -1)
-		return (handle_fork_error(pipe_fd));
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	
-	close_wait_clean_hd(mns, pipe_fd, left_pid, right_pid);
-	mns->is_pipe = false;
 }
+
