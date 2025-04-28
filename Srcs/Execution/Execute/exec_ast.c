@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:27:56 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/28 03:35:25 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/29 02:55:47 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,24 @@ static void	exec_cmd_node(t_shell *mns, t_ast *node)
 	exec_cmd(mns, &mns->cmd_group[node->cmd_index]);
 }
 
-static void	close_wait_clean_hd(t_shell *mns, int *pipe_fd,
-				pid_t left_pid, pid_t right_pid)
-{
-	int	i;
-
-	(void)pipe_fd;
-	i = 0;
-	wait_update(mns, left_pid);
-	wait_update(mns, right_pid);
-	while (i < mns->group_cnt)
-	{
-		clean_heredoc_files(mns, &mns->cmd_group[i]);
-		i++;
-	}
-}
-
-void	exec_ast(t_ast *node, t_shell *mns)
+static void	exec_pipe_node(t_ast *node, t_shell *mns)
 {
 	int		pipe_fd[2];
 	pid_t	left_pid;
 	pid_t	right_pid;
 
+	if (pipe(pipe_fd) == -1)
+		return (perror("pipe error"));
+	left_pid = fork_and_exec_left(node->left, mns, pipe_fd[1], pipe_fd);
+	right_pid = fork_and_exec_right(node->right, mns, pipe_fd[0], pipe_fd);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	close_wait_clean_hd(mns, pipe_fd, left_pid, right_pid);
+	mns->is_pipe = false;
+}
+
+void	exec_ast(t_ast *node, t_shell *mns)
+{
 	if (!node)
 		return ;
 	if (mns->heredoc_failed)
@@ -98,14 +94,7 @@ void	exec_ast(t_ast *node, t_shell *mns)
 	}
 	if (node->type == NODE_PIPE)
 	{
-		if (pipe(pipe_fd) == -1)
-			return (perror("pipe error"));
-		left_pid = fork_and_exec_left(node->left, mns, pipe_fd[1], pipe_fd);
-		right_pid = fork_and_exec_right(node->right, mns, pipe_fd[0], pipe_fd);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		close_wait_clean_hd(mns, pipe_fd, left_pid, right_pid);
-		mns->is_pipe = false;
+		exec_pipe_node(node, mns);
 		return ;
 	}
 	else if (node->type == NODE_CMD)
@@ -114,4 +103,3 @@ void	exec_ast(t_ast *node, t_shell *mns)
 		return ;
 	}
 }
-

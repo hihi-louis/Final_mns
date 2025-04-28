@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caonguye <caonguye@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:06:39 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/22 22:28:34 by caonguye         ###   ########.fr       */
+/*   Updated: 2025/04/29 02:55:16 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,20 @@ int	check_ambiguous_rd(t_shell *mns, char *str, int *fd)
 		close (*fd);
 	update_status(mns, 1);
 	return (EXIT_FAILURE);
+}
+
+void	close_wait_clean_hd(t_shell *mns, int *pipe_fd,
+	pid_t left_pid, pid_t right_pid)
+{
+	int	i;
+
+	(void)pipe_fd;
+	i = 0;
+	wait_update(mns, left_pid);
+	wait_update(mns, right_pid);
+	while (i < mns->group_cnt)
+	{
+		clean_heredoc_files(mns, &mns->cmd_group[i]);
+		i++;
+	}
 }

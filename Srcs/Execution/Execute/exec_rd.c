@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:39 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/27 19:07:38 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/29 02:39:41 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	handle_outfile(t_cmd *cmd)
 		}
 		if (fd < 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "bash: %s: %s\n", cmd->out[i].val, strerror(errno));
+			ft_printf_fd(2, "bash: %s: %s\n", cmd->out[i].val, strerror(errno));
 			return (EXIT_FAILURE);
 		}
 		dup2(fd, STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 00:26:51 by caonguye          #+#    #+#             */
-/*   Updated: 2025/04/27 18:30:56 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/29 02:33:38 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	hd_expand_digit(t_shell *mns, char **key, char **temp)
 {
 	char	*str;
 
-	str = ft_strdup(*key + 1); 
+	str = ft_strdup(*key + 1);
 	if (!ft_append(temp, &str))
 	{
 		free(*key);

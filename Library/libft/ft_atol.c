@@ -6,7 +6,7 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 21:08:53 by tripham           #+#    #+#             */
-/*   Updated: 2025/04/18 21:29:58 by tripham          ###   ########.fr       */
+/*   Updated: 2025/04/29 02:56:21 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static int	ft_parse_digits(const char *s, long *out, int i, int sign)
 	r = 0;
 	while (ft_isdigit(s[i]))
 	{
-		if (r > (LONG_MAX - (s[i] - '0')) / 10)
+		if (sign == 1 && r > (LONG_MAX - (s[i] - '0')) / 10)
+			return (0);
+		if (sign == -1 && r > (-(LONG_MIN + (s[i] - '0'))) / 10)
 			return (0);
 		r = r * 10 + (s[i] - '0');
 		i++;
